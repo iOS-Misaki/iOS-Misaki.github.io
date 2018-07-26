@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/iOS-Misaki.github.io.git/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/iOS-Misaki.github.io.git/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/iOS-Misaki.github.io.git/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/iOS-Misaki.github.io.git/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/iOS-Misaki.github.io.git/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/iOS-Misaki.github.io.git/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/iOS-Misaki.github.io.git/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="#####CAAnimation系列文章  CAAnimation （一）CAKeyframeAnimation 关键帧动画和CAAnimationGroup动画组 CAAnimation （二）CATransition转场动画和CAAnimationGroup动画组 CAAnimation （三）CASpringAnimation弹簧动画   &amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我的第一篇文章">
+<meta property="og:url" content="https://github.com/iOS-Misaki/iOS-Misaki.github.io.git/2018/07/26/我的第一篇文章/index.html">
+<meta property="og:site_name" content="Misaki的空间">
+<meta property="og:description" content="#####CAAnimation系列文章  CAAnimation （一）CAKeyframeAnimation 关键帧动画和CAAnimationGroup动画组 CAAnimation （二）CATransition转场动画和CAAnimationGroup动画组 CAAnimation （三）CASpringAnimation弹簧动画   &amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;有">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1487718-98d399ad7b624a91.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1487718-9916176ef3035803.gif?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2018-07-26T02:21:51.644Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我的第一篇文章">
+<meta name="twitter:description" content="#####CAAnimation系列文章  CAAnimation （一）CAKeyframeAnimation 关键帧动画和CAAnimationGroup动画组 CAAnimation （二）CATransition转场动画和CAAnimationGroup动画组 CAAnimation （三）CASpringAnimation弹簧动画   &amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;有">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1487718-98d399ad7b624a91.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/iOS-Misaki.github.io.git/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/iOS-Misaki/iOS-Misaki.github.io.git/2018/07/26/我的第一篇文章/"/>
+
+
+
+
+
+  <title>我的第一篇文章 | Misaki的空间</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/iOS-Misaki.github.io.git/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Misaki的空间</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/iOS-Misaki.github.io.git/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/iOS-Misaki.github.io.git/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iOS-Misaki/iOS-Misaki.github.io.git/iOS-Misaki.github.io.git/2018/07/26/我的第一篇文章/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yu Yi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/iOS-Misaki.github.io.git/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Misaki的空间">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">我的第一篇文章</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-26T10:20:39+08:00">
+                2018-07-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p>#####CAAnimation系列文章</p>
+<ul>
+<li><a href="">CAAnimation （一）CAKeyframeAnimation 关键帧动画和CAAnimationGroup动画组</a></li>
+<li><a href="">CAAnimation （二）CATransition转场动画和CAAnimationGroup动画组</a></li>
+<li><a href="">CAAnimation （三）CASpringAnimation弹簧动画</a></li>
+</ul>
+<hr>
+<p>&ensp;&ensp;&ensp;&ensp;有人问我为什么要写博客，必须要承认，现在网上一大推的优秀教程和现成的Demo，自己写的没有别人好，有些地方根本不够深入，但是看别人写文章、写代码和自己写完全是两件事，代码看看就能懂，但是自己过一遍，印象更深，消化的也就更彻底。对于iOS动画 ，一直都没有系统化的学习，只有用的时候才会查查api，之前写过一篇红包雨的文章，用的是关键帧动画，没有在继续下去。另一个就是在6月份面试的时候，有两个面试官都问道了基础动画，当时也回答的不好，现在详细地梳理一遍。现阶段，先把<code>Core Animation</code>弄清楚，以后再下沉到<code>OpenGL</code>和<code>CoreGraphics</code>。</p>
+<p>&ensp;&ensp;&ensp;&ensp;引用官方文档：</p>
+<blockquote>
+<p>Core Animation provides high frame rates and smooth animations without burdening the CPU and slowing down your app. Most of the work required to draw each frame of an animation is done for you. You configure animation parameters such as the start and end points, and Core Animation does the rest, handing off most of the work to dedicated graphics hardware, to accelerate rendering. For more details, see <a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40004514" target="_blank" rel="noopener">Core Animation Programming Guide</a>.</p>
+</blockquote>
+<p>&ensp;&ensp;&ensp;&ensp;<code>Core Animation</code>提供了高帧率和流畅的动画，而不会加重CPU负担，也不会减慢应用程序的速度。你可以配置动画参数，如起始点和结束点，<code>Core animation</code>完成其余部分，将大部分工作交给专用的图形硬件，以加速渲染。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1487718-98d399ad7b624a91.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CAAnimation类图.jpg"></p>
+<p>&ensp;&ensp;&ensp;&ensp;对于<code>CAAnimation</code>,是核心动画基础类，不直接使用，一般用它的子类。<code>CAAnimation</code>有三个子类<code>CAPropertyAnimation、CATransition、CAAnimationGroup</code>。第二个<code>CATransition</code>是转场动画，第三个<code>CAAnimationGroup</code>是动画组。第一个<code>CAPropertyAnimation</code>又分为两个子类<code>CABasicAnimation、CAKeyframeAnimation</code>。<code>CAKeyframeAnimation</code>是关键帧动画。<code>CABasicAnimation</code>下面还有个子类<code>CASpringAnimation</code>是弹簧动画。</p>
+<p>&ensp;&ensp;&ensp;&ensp;<code>CAPropertyAnimation</code>通过<code>animationWithKeyPath</code>来创建动画，可以看看有哪些属性可以创建动画。详见<a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreAnimation_guide/AnimatableProperties/AnimatableProperties.html#//apple_ref/doc/uid/TP40004514-CH11-SW2" target="_blank" rel="noopener">官方文档</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">anchorPoint</span><br><span class="line">backgroundColor</span><br><span class="line">backgroundFilters</span><br><span class="line">borderColor</span><br><span class="line">borderWidth</span><br><span class="line">bounds</span><br><span class="line">compositingFilter</span><br><span class="line">contents</span><br><span class="line">contentsRect</span><br><span class="line">cornerRadius</span><br><span class="line">doubleSided</span><br><span class="line">filters</span><br><span class="line">frame</span><br><span class="line">hidden</span><br><span class="line">mask</span><br><span class="line">masksToBounds</span><br><span class="line">opacity</span><br><span class="line">position</span><br><span class="line">shadowColor</span><br><span class="line">shadowOffset</span><br><span class="line">shadowOpacity</span><br><span class="line">shadowPath</span><br><span class="line">shadowRadius</span><br><span class="line">sublayers</span><br><span class="line">sublayerTransform</span><br><span class="line">transform</span><br><span class="line">zPosition</span><br></pre></td></tr></table></figure>
+<hr>
+<p>##CAKeyframeAnimation关键帧动画</p>
+<p>&ensp;&ensp;&ensp;&ensp;可以使用继承的<code>animationWithKeyPath:</code>方法创建一个<code>CAKeyframeAnimation</code>对象，并指定要在层上动画的属性的关键路径。然后可以指定用于控制时间和动画行为的关键帧值。对于大多数动画类型，可以使用值和<code>keyTimes</code>属性指定关键帧值。在动画期间，<code>Core animation</code>通过在您提供的值之间插入来生成中间值。当动画一个坐标点(例如layer的位置)的值时，你可以指定该点的路径，而不是单独的值。动画的节奏由你提供的时间信息控制。</p>
+<p>####重要属性<br>属性 | 描述 </p>
+<ul>
+<li>| :-:<br>values|用来存放关键帧的数组<br>path |基于点的属性的路径。<br>keyTimes |对应关键帧段的时间点的NSNumber数组<br>timingFunctions |关键帧动画节奏的数组，比如快进慢出、慢进快出等<br>calculationMode |确定沿路径动画的对象是否旋转以匹配路径切线<br>tensionValues |定义曲线的紧密性的NSNumber数组<br>continuityValues |定义时间曲线锐角的NSNumber数组<br>biasValues |定义曲线相对于控制点的位置的NSNumber数组<br>Rotation Mode Values |rotationMode属性使用这些常量<br>Value calculation modes |calculationMode属性使用这些常量</li>
+</ul>
+<p>####效果代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - 指定keyPath为position，通过Values来创建关键帧动画</span><br><span class="line">- (void)CAKeyframeAnimationWithValues</span><br><span class="line">&#123;</span><br><span class="line">CGFloat margin = 50.f;</span><br><span class="line"></span><br><span class="line">CAKeyframeAnimation * animation = [CAKeyframeAnimation animation];</span><br><span class="line">animation.keyPath = @&quot;position&quot;;</span><br><span class="line">NSValue * value0 = [NSValue valueWithCGPoint:CGPointMake(margin, margin)];</span><br><span class="line">NSValue * value1 = [NSValue valueWithCGPoint:CGPointMake(margin, SCREENHEIGHT - margin)];</span><br><span class="line">NSValue * value2 = [NSValue valueWithCGPoint:CGPointMake(SCREENWIDTH - margin, SCREENHEIGHT - margin)];</span><br><span class="line">NSValue * value3 = [NSValue valueWithCGPoint:CGPointMake(SCREENWIDTH - margin, margin)];</span><br><span class="line">NSValue * value4 = [NSValue valueWithCGPoint:CGPointMake(margin, margin)];</span><br><span class="line">animation.values = @[value0,value1,value2,value3,value4];</span><br><span class="line"></span><br><span class="line">//当我们动画完成时,如果希望动画就自动移除的话,我们可以设置此属性为YES,默认值为YES</span><br><span class="line">animation.fillMode = kCAFillModeForwards;</span><br><span class="line">animation.removedOnCompletion = NO;</span><br><span class="line">animation.duration = 4;</span><br><span class="line">animation.repeatCount = MAXFLOAT;</span><br><span class="line">//快入快出</span><br><span class="line">animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];</span><br><span class="line">[self.pointView.layer addAnimation:animation forKey:@&quot;position.values&quot;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - 指定keyPath为position，通过path路径来创建关键帧动画</span><br><span class="line">- (void)CAKeyframeAnimationWithPath</span><br><span class="line">&#123;</span><br><span class="line">CGFloat margin = 50.f;</span><br><span class="line"></span><br><span class="line">CAKeyframeAnimation * animation = [CAKeyframeAnimation animation];</span><br><span class="line">animation.keyPath = @&quot;position&quot;;</span><br><span class="line"></span><br><span class="line">CGMutablePathRef path = CGPathCreateMutable();</span><br><span class="line">CGPathAddRect(path, NULL, CGRectMake(margin, margin, SCREENWIDTH - margin * 2, SCREENHEIGHT - margin * 2));</span><br><span class="line">animation.path = path;</span><br><span class="line">CGPathRelease(path);</span><br><span class="line"></span><br><span class="line">animation.fillMode = kCAFillModeForwards;</span><br><span class="line">animation.removedOnCompletion = NO;</span><br><span class="line">animation.duration = 4;</span><br><span class="line">animation.repeatCount = MAXFLOAT;</span><br><span class="line">NSMutableArray * timingFunctionArray = [NSMutableArray new];</span><br><span class="line">for (NSInteger i = 0 ; i &lt; 5 ; i ++)</span><br><span class="line">&#123;</span><br><span class="line">//每一段都是快出效果</span><br><span class="line">CAMediaTimingFunction * timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];</span><br><span class="line">[timingFunctionArray addObject:timingFunction];</span><br><span class="line">&#125;</span><br><span class="line">animation.timingFunctions = timingFunctionArray;</span><br><span class="line">[self.pointView.layer addAnimation:animation forKey:@&quot;position.path&quot;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>####效果图<br><img src="https://upload-images.jianshu.io/upload_images/1487718-9916176ef3035803.gif?imageMogr2/auto-orient/strip" alt="CAKeyframeAnimation.gif"></p>
+<p>&ensp;&ensp;&ensp;&ensp;需要注意的是removedOnCompletion设置为NO的时候，不需要layer的时候要根据key手动移除动画。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[self.pointView.layer removeAnimationForKey:@&quot;position.values&quot;];</span><br><span class="line">[self.pointView.layer removeAnimationForKey:@&quot;position.path&quot;];</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/iOS-Misaki/CAAnimation"><strong>源码: CAAnimation</strong></a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/iOS-Misaki.github.io.git/2018/07/25/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Yu Yi</p>
+              <p class="site-description motion-element" itemprop="description">记录余意技术成长的点点滴滴</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/iOS-Misaki.github.io.git/archives/">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yu Yi</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/iOS-Misaki.github.io.git/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/iOS-Misaki.github.io.git/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/iOS-Misaki.github.io.git/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/iOS-Misaki.github.io.git/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/iOS-Misaki.github.io.git/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/iOS-Misaki.github.io.git/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/iOS-Misaki.github.io.git/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/iOS-Misaki.github.io.git/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/iOS-Misaki.github.io.git/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/iOS-Misaki.github.io.git/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/iOS-Misaki.github.io.git/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
