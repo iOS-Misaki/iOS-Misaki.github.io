@@ -81,17 +81,26 @@
 
 
 
-<meta name="description" content="一个热爱二次元、沉迷炒币的iOS开发者">
+<meta name="description" content="&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;有人问我为什么要写博客，必须要承认，现在网上一大推的优秀教程和现成的Demo，自己写的没有别人好，有些地方根本不够深入，但是看别人写文章、写代码和自己写完全是两件事，代码看看就能懂，但是自己过一遍，印象更深，消化的也就更彻底。对于iOS动画 ，一直都没有系统化的学习，只有用的时候才会查查api，之前写过一篇红包雨的文章，用的是关键帧动画，没有在继续下">
 <meta name="keywords" content="iOS 余意">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Misaki的小站">
-<meta property="og:url" content="https://github.com/iOS-Misaki/iOS-Misaki.github.io/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CAAnimation 系列动画">
+<meta property="og:url" content="https://github.com/iOS-Misaki/iOS-Misaki.github.io/2018/07/26/CAAnimation 系列动画/index.html">
 <meta property="og:site_name" content="Misaki的小站">
-<meta property="og:description" content="一个热爱二次元、沉迷炒币的iOS开发者">
+<meta property="og:description" content="&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;有人问我为什么要写博客，必须要承认，现在网上一大推的优秀教程和现成的Demo，自己写的没有别人好，有些地方根本不够深入，但是看别人写文章、写代码和自己写完全是两件事，代码看看就能懂，但是自己过一遍，印象更深，消化的也就更彻底。对于iOS动画 ，一直都没有系统化的学习，只有用的时候才会查查api，之前写过一篇红包雨的文章，用的是关键帧动画，没有在继续下">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1487718-98d399ad7b624a91.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1487718-9916176ef3035803.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1487718-1a8800f104907166.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1487718-1da95c682f270d71.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1487718-fbc767740432f20c.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1487718-ae46d1313229aaa6.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1487718-0a62c12dc5195c94.gif?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2018-07-26T14:15:24.156Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Misaki的小站">
-<meta name="twitter:description" content="一个热爱二次元、沉迷炒币的iOS开发者">
+<meta name="twitter:title" content="CAAnimation 系列动画">
+<meta name="twitter:description" content="&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;有人问我为什么要写博客，必须要承认，现在网上一大推的优秀教程和现成的Demo，自己写的没有别人好，有些地方根本不够深入，但是看别人写文章、写代码和自己写完全是两件事，代码看看就能懂，但是自己过一遍，印象更深，消化的也就更彻底。对于iOS动画 ，一直都没有系统化的学习，只有用的时候才会查查api，之前写过一篇红包雨的文章，用的是关键帧动画，没有在继续下">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1487718-98d399ad7b624a91.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -121,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/iOS-Misaki/iOS-Misaki.github.io/"/>
+  <link rel="canonical" href="https://github.com/iOS-Misaki/iOS-Misaki.github.io/2018/07/26/CAAnimation 系列动画/"/>
 
 
 
 
 
-  <title>Misaki的小站</title>
+  <title>CAAnimation 系列动画 | Misaki的小站</title>
   
 
 
@@ -146,8 +155,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -221,9 +229,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -253,9 +261,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/iOS-Misaki.github.io/2018/07/26/CAAnimation 系列动画/" itemprop="url">CAAnimation 系列动画</a></h1>
+          <h1 class="post-title" itemprop="name headline">CAAnimation 系列动画</h1>
         
 
         <div class="post-meta">
@@ -305,9 +311,7 @@
       
 
       
-        
-          
-            <p>&ensp;&ensp;&ensp;&ensp;有人问我为什么要写博客，必须要承认，现在网上一大推的优秀教程和现成的Demo，自己写的没有别人好，有些地方根本不够深入，但是看别人写文章、写代码和自己写完全是两件事，代码看看就能懂，但是自己过一遍，印象更深，消化的也就更彻底。对于iOS动画 ，一直都没有系统化的学习，只有用的时候才会查查api，之前写过一篇<a href="https://www.jianshu.com/p/92ac22afeeef" target="_blank" rel="noopener">红包雨</a>的文章，用的是关键帧动画，没有在继续下去。另一个就是在6月份面试的时候，有两个面试官都问到了基础动画，当时也回答的不好，现在详细地梳理一遍。现阶段，先把<code>Core Animation</code>弄清楚，以后再下沉到<code>OpenGL</code>和<code>CoreGraphics</code>。</p>
+        <p>&ensp;&ensp;&ensp;&ensp;有人问我为什么要写博客，必须要承认，现在网上一大推的优秀教程和现成的Demo，自己写的没有别人好，有些地方根本不够深入，但是看别人写文章、写代码和自己写完全是两件事，代码看看就能懂，但是自己过一遍，印象更深，消化的也就更彻底。对于iOS动画 ，一直都没有系统化的学习，只有用的时候才会查查api，之前写过一篇<a href="https://www.jianshu.com/p/92ac22afeeef" target="_blank" rel="noopener">红包雨</a>的文章，用的是关键帧动画，没有在继续下去。另一个就是在6月份面试的时候，有两个面试官都问到了基础动画，当时也回答的不好，现在详细地梳理一遍。现阶段，先把<code>Core Animation</code>弄清楚，以后再下沉到<code>OpenGL</code>和<code>CoreGraphics</code>。</p>
 <h2 id="CAAnimation继承关系"><a href="#CAAnimation继承关系" class="headerlink" title="CAAnimation继承关系"></a>CAAnimation继承关系</h2><p>&ensp;&ensp;&ensp;&ensp;引用官方文档：</p>
 <blockquote>
 <p>Core Animation provides high frame rates and smooth animations without burdening the CPU and slowing down your app. Most of the work required to draw each frame of an animation is done for you. You configure animation parameters such as the start and end points, and Core Animation does the rest, handing off most of the work to dedicated graphics hardware, to accelerate rendering. For more details, see <a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40004514" target="_blank" rel="noopener">Core Animation Programming Guide</a>.</p>
@@ -468,8 +472,6 @@
 <h4 id="效果图-4"><a href="#效果图-4" class="headerlink" title="效果图"></a>效果图</h4><p><img src="https://upload-images.jianshu.io/upload_images/1487718-0a62c12dc5195c94.gif?imageMogr2/auto-orient/strip" alt="CellSpringAnimation.gif"></p>
 <p><a href="https://github.com/iOS-Misaki/CAAnimation"><strong>源码: CAAnimation</strong></a></p>
 
-          
-        
       
     </div>
     
@@ -479,6 +481,35 @@
     
 
     
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="https://yuyi-1257105666.cos.ap-beijing.myqcloud.com/wechatpay.png" alt="Misaki 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="https://yuyi-1257105666.cos.ap-beijing.myqcloud.com/alipay.png" alt="Misaki 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
 
     
 
@@ -486,12 +517,12 @@
       
 
       
+      
+      
 
       
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -501,10 +532,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -512,6 +544,15 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zODM3OS8xNDkwNw"></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -532,8 +573,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -632,6 +682,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CAAnimation继承关系"><span class="nav-number">1.</span> <span class="nav-text">CAAnimation继承关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAKeyframeAnimation-关键帧动画"><span class="nav-number">2.</span> <span class="nav-text">CAKeyframeAnimation 关键帧动画</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重要属性"><span class="nav-number">2.1.</span> <span class="nav-text">重要属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#效果代码"><span class="nav-number">2.2.</span> <span class="nav-text">效果代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#效果图"><span class="nav-number">2.3.</span> <span class="nav-text">效果图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CATransition-转场动画"><span class="nav-number">3.</span> <span class="nav-text">CATransition 转场动画</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重要属性-1"><span class="nav-number">3.1.</span> <span class="nav-text">重要属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#效果代码-1"><span class="nav-number">3.2.</span> <span class="nav-text">效果代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#效果图-1"><span class="nav-number">3.3.</span> <span class="nav-text">效果图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAAnimationGroup-动画组"><span class="nav-number">4.</span> <span class="nav-text">CAAnimationGroup 动画组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#效果代码-2"><span class="nav-number">4.1.</span> <span class="nav-text">效果代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#效果图-2"><span class="nav-number">4.2.</span> <span class="nav-text">效果图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CASpringAnimation-弹簧动画"><span class="nav-number">5.</span> <span class="nav-text">CASpringAnimation 弹簧动画</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重要属性-2"><span class="nav-number">5.1.</span> <span class="nav-text">重要属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#效果代码-3"><span class="nav-number">5.2.</span> <span class="nav-text">效果代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#效果图-3"><span class="nav-number">5.3.</span> <span class="nav-text">效果图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UIView的弹簧动画"><span class="nav-number">5.4.</span> <span class="nav-text">UIView的弹簧动画</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#效果代码-4"><span class="nav-number">5.4.1.</span> <span class="nav-text">效果代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#效果图-4"><span class="nav-number">5.4.2.</span> <span class="nav-text">效果图</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -775,6 +841,10 @@
   
 
   
+  <script type="text/javascript" src="/iOS-Misaki.github.io/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/iOS-Misaki.github.io/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -803,6 +873,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
