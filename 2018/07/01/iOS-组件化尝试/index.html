@@ -92,7 +92,7 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1487718-14005383adc14ecc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1487718-ed43c5ee1fb260b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1487718-a1542a4366eedd5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-07-27T03:31:47.658Z">
+<meta property="og:updated_time" content="2018-07-27T03:38:19.227Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 组件化尝试">
 <meta name="twitter:description" content="&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;ReactiveCocoa只更新了一篇，剩下结合登录例子来实践MVVM暂时没有时间，这周精力都放在了公司项目的组件化上面，以后有时间会慢慢补上。感觉欠的历史债好多。">
@@ -311,7 +311,7 @@
 <a id="more"></a>
 <h2 id="传统模块的耦合"><a href="#传统模块的耦合" class="headerlink" title="传统模块的耦合"></a>传统模块的耦合</h2><p>&ensp;&ensp;&ensp;&ensp;对于大型项目来说，业务模块之间的耦合度非常大，很难维护。模块之间会互相调用。<br><img src="https://upload-images.jianshu.io/upload_images/1487718-14005383adc14ecc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="传统模块"></p>
 <p>&ensp;&ensp;&ensp;&ensp;为了解决这个问题，可以增加一个中间层。<br><img src="https://upload-images.jianshu.io/upload_images/1487718-ed43c5ee1fb260b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="增加中间层"><br>&ensp;&ensp;&ensp;&ensp;但是模块和中间层还是互相依赖，之前耦合的问题还是存在，要改进的地方是消除中间层对业务模块的依赖。<br><img src="https://upload-images.jianshu.io/upload_images/1487718-a1542a4366eedd5c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="最终方案"></p>
-<h2 id="模块的划分"><a href="#模块的划分" class="headerlink" title="模块的划分"></a>模块的划分</h2><p>&ensp;&ensp;&ensp;&ensp;组件化是把每个模块作为一个组件，在主工程里面集成所有的组件。关于用<code>CocoaPod</code>集成私有库，在上篇文章<a href="https://www.jianshu.com/p/4664b096c98f" target="_blank" rel="noopener">CocoaPod创建私有库</a>有详细的介绍。<br>&ensp;&ensp;&ensp;&ensp;整个项目中模块的划分是分为基础模块、中间层和业务模块。</p>
+<h2 id="模块的划分"><a href="#模块的划分" class="headerlink" title="模块的划分"></a>模块的划分</h2><p>&ensp;&ensp;&ensp;&ensp;组件化是把每个模块作为一个组件，在主工程里面集成所有的组件。关于用<code>CocoaPod</code>集成私有库，在上篇文章<a href="https://ios-misaki.github.io/iOS-Misaki.github.io/2018/07/01/CocoaPod-%E5%88%9B%E5%BB%BA%E7%A7%81%E6%9C%89%E5%BA%93/" target="_blank" rel="noopener">CocoaPod创建私有库</a>有详细的介绍。<br>&ensp;&ensp;&ensp;&ensp;整个项目中模块的划分是分为基础模块、中间层和业务模块。</p>
 <ul>
 <li>基础模块里面是和业务没有任何关联的模块，里面包括网络请求、图片加载、数据存储、页面布局还有公共的工具类等。</li>
 <li>业务模块是按照功能来划分的。根据业务需要，来确定颗粒度的大小，比如登录注册模块、用户信息模块、购物车模块、详情模块、订单模块等。业务模块是要依赖基础模块的。</li>
