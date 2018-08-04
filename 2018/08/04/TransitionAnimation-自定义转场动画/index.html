@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/iOS-Misaki.github.io/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/iOS-Misaki.github.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/iOS-Misaki.github.io/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/iOS-Misaki.github.io/images/smile_180*180.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/iOS-Misaki.github.io/images/smile_32*32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/iOS-Misaki.github.io/images/smile_16*16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/iOS-Misaki.github.io/images/smile.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/iOS-Misaki.github.io/atom.xml" title="Misaki的小站" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;在iOS 7之后，苹果就开放了自定义转场的相关api，现在都快iOS 12了，一直都没有好好研究转场动画，一个是之前没有重视，觉得花里胡哨的，另外一个是所做的项目中没有这样的转场动画需求。这里说的转场动画和上一篇CAAnimation 系统动画中CATransition动画不是一个概念，上一篇指的是单个View的转场特效，这里指的是整个控制器的转场特">
+<meta name="keywords" content="iOS 余意">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TransitionAnimation 自定义转场动画">
+<meta property="og:url" content="https://github.com/iOS-Misaki/iOS-Misaki.github.io/2018/08/04/TransitionAnimation-自定义转场动画/index.html">
+<meta property="og:site_name" content="Misaki的小站">
+<meta property="og:description" content="&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;在iOS 7之后，苹果就开放了自定义转场的相关api，现在都快iOS 12了，一直都没有好好研究转场动画，一个是之前没有重视，觉得花里胡哨的，另外一个是所做的项目中没有这样的转场动画需求。这里说的转场动画和上一篇CAAnimation 系统动画中CATransition动画不是一个概念，上一篇指的是单个View的转场特效，这里指的是整个控制器的转场特">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://yuyiios-work.oss-cn-shanghai.aliyuncs.com/%E5%8D%9A%E5%AE%A2/TransitionAnimation%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB%E7%B1%BB%E5%9B%BE.png">
+<meta property="og:image" content="https://yuyiios-work.oss-cn-shanghai.aliyuncs.com/%E5%8D%9A%E5%AE%A2/TransitionAnimation%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/%E7%BD%91%E6%98%93%E4%B8%A5%E9%80%89Push%E5%92%8CPop%E5%8A%A8%E7%94%BB.mov">
+<meta property="og:image" content="https://yuyiios-work.oss-cn-shanghai.aliyuncs.com/%E5%8D%9A%E5%AE%A2/TransitionAnimation%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/%E7%BD%91%E6%98%93%E4%B8%A5%E9%80%89Present%E5%92%8CDismiss%E5%8A%A8%E7%94%BB.mov">
+<meta property="og:image" content="https://yuyiios-work.oss-cn-shanghai.aliyuncs.com/%E5%8D%9A%E5%AE%A2/TransitionAnimation%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/Push%E5%92%8CPop%E6%95%88%E6%9E%9C.gif">
+<meta property="og:image" content="https://yuyiios-work.oss-cn-shanghai.aliyuncs.com/%E5%8D%9A%E5%AE%A2/TransitionAnimation%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/Present%E5%92%8CDismiss%E6%95%88%E6%9E%9C.gif">
+<meta property="og:image" content="https://yuyiios-work.oss-cn-shanghai.aliyuncs.com/%E5%8D%9A%E5%AE%A2/TransitionAnimation%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/%E6%A0%BC%E7%93%A6%E6%8B%89%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB.mov">
+<meta property="og:updated_time" content="2018-08-04T13:24:46.915Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TransitionAnimation 自定义转场动画">
+<meta name="twitter:description" content="&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;在iOS 7之后，苹果就开放了自定义转场的相关api，现在都快iOS 12了，一直都没有好好研究转场动画，一个是之前没有重视，觉得花里胡哨的，另外一个是所做的项目中没有这样的转场动画需求。这里说的转场动画和上一篇CAAnimation 系统动画中CATransition动画不是一个概念，上一篇指的是单个View的转场特效，这里指的是整个控制器的转场特">
+<meta name="twitter:image" content="https://yuyiios-work.oss-cn-shanghai.aliyuncs.com/%E5%8D%9A%E5%AE%A2/TransitionAnimation%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB%E7%B1%BB%E5%9B%BE.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/iOS-Misaki.github.io/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/iOS-Misaki/iOS-Misaki.github.io/2018/08/04/TransitionAnimation-自定义转场动画/"/>
+
+
+
+
+
+  <title>TransitionAnimation 自定义转场动画 | Misaki的小站</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <a href="https://github.com/iOS-Misaki" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/iOS-Misaki.github.io/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Misaki的小站</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Stay Hungry, Stay Foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/iOS-Misaki.github.io/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/iOS-Misaki.github.io/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/iOS-Misaki/iOS-Misaki.github.io/iOS-Misaki.github.io/2018/08/04/TransitionAnimation-自定义转场动画/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Misaki">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/iOS-Misaki.github.io/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Misaki的小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">TransitionAnimation 自定义转场动画</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-04T20:40:27+08:00">
+                2018-08-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&ensp;&ensp;&ensp;&ensp;在<code>iOS 7</code>之后，苹果就开放了自定义转场的相关<code>api</code>，现在都快<code>iOS 12</code>了，一直都没有好好研究转场动画，一个是之前没有重视，觉得花里胡哨的，另外一个是所做的项目中没有这样的转场动画需求。这里说的转场动画和上一篇<a href="https://ios-misaki.github.io/iOS-Misaki.github.io/2018/07/26/CAAnimation%20%E7%B3%BB%E5%88%97%E5%8A%A8%E7%94%BB/" target="_blank" rel="noopener">CAAnimation 系统动画</a>中<code>CATransition</code>动画不是一个概念，上一篇指的是单个View的转场特效，这里指的是整个控制器的转场特效。其实写上篇文章的目前也是为今天打下铺垫，复杂的转场效果也是由单个动画来组成的。</p>
+<a id="more"></a>
+<p><img src="https://yuyiios-work.oss-cn-shanghai.aliyuncs.com/%E5%8D%9A%E5%AE%A2/TransitionAnimation%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB%E7%B1%BB%E5%9B%BE.png" alt="自定义转场动画类图"></p>
+<p>&ensp;&ensp;&ensp;&ensp;由图中可以看出要完成自定义转场动画，必须遵从<code>UIViewControllerAnimatedTransitioning</code>协议，协议中有两个必须实现的方法一个是返回转场时间，一个是具体转场的实现。文章会结合5个最常用的动画场景来说明转场动画。</p>
+<p>&ensp;&ensp;&ensp;&ensp;先来看看网易严选App的转场效果，可以看出当前页面想要<code>Push</code>其他的页面的时候，当前页面会下沉同时其他页面从右边平移至左边。<code>Present</code>页面的时候，当前页面也会下沉，目标视图从底部弹出。<br><img src="https://yuyiios-work.oss-cn-shanghai.aliyuncs.com/%E5%8D%9A%E5%AE%A2/TransitionAnimation%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/%E7%BD%91%E6%98%93%E4%B8%A5%E9%80%89Push%E5%92%8CPop%E5%8A%A8%E7%94%BB.mov" alt="网易严选Push和Pop动画"></p>
+<p><img src="https://yuyiios-work.oss-cn-shanghai.aliyuncs.com/%E5%8D%9A%E5%AE%A2/TransitionAnimation%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/%E7%BD%91%E6%98%93%E4%B8%A5%E9%80%89Present%E5%92%8CDismiss%E5%8A%A8%E7%94%BB.mov" alt="网易严选Present和Dismiss动画"></p>
+<p>&ensp;&ensp;&ensp;&ensp;来看代码，在<code>ViewController</code>里面有两个按钮，分别是<code>Push</code>出<code>SecondVC</code>和<code>Present</code>出<code>ThirdVC</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)pushBtnClick:(id)sender</span><br><span class="line">&#123;</span><br><span class="line">    SecondViewController * vc = [[SecondViewController alloc] init];</span><br><span class="line">    [self.navigationController pushViewController:vc animated:YES];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (IBAction)presentBtnClick:(id)sender</span><br><span class="line">&#123;</span><br><span class="line">    ThirdViewController * vc = [[ThirdViewController alloc] init];</span><br><span class="line">    [self presentViewController:vc animated:YES completion:nil];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Push和Pop动画"><a href="#Push和Pop动画" class="headerlink" title="Push和Pop动画"></a>Push和Pop动画</h2><h3 id="UIViewControllerAnimatedTransitioning协议"><a href="#UIViewControllerAnimatedTransitioning协议" class="headerlink" title="UIViewControllerAnimatedTransitioning协议"></a>UIViewControllerAnimatedTransitioning协议</h3><p>&ensp;&ensp;&ensp;&ensp;这里新建一个<code>AnimatedTransitioningObject</code>类，然后要遵循<code>UIViewControllerAnimatedTransitioning</code>协议。这个为了方便，把<code>Push、Pop、Present、Dismiss</code>这四个效果写在一起，用枚举来区分，当然也可以把每种动画效果单独用一个<code>AnimatedTransitioningObject</code>类来实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line">#import &lt;UIKit/UIKit.h&gt;</span><br><span class="line"></span><br><span class="line">typedef NS_ENUM(NSInteger,TransitionAnimationObjectType) &#123;</span><br><span class="line">    TransitionAnimationObjectType_Push,</span><br><span class="line">    TransitionAnimationObjectType_Pop,</span><br><span class="line">    TransitionAnimationObjectType_present,</span><br><span class="line">    TransitionAnimationObjectType_Dismiss</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">@interface TransitionAnimationObject : NSObject &lt;UIViewControllerAnimatedTransitioning&gt;</span><br><span class="line"></span><br><span class="line">@property (nonatomic,assign) TransitionAnimationObjectType type;</span><br><span class="line"></span><br><span class="line">- (instancetype)initWithTransitionAnimationObjectType:(TransitionAnimationObjectType)type;</span><br><span class="line"></span><br><span class="line">+ (instancetype)initWithTransitionAnimationObjectType:(TransitionAnimationObjectType)type;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
+<p>&ensp;&ensp;&ensp;&ensp;来看看两个必须实现的方法，在返回转场时间里也可以根据<code>type</code>来返回不同的动画时间，这里统一返回0.5秒。<code>pushAnimateTransition</code>里面实现<code>Push</code>效果转场。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">- (NSTimeInterval)transitionDuration:(id&lt;UIViewControllerContextTransitioning&gt;)transitionContext</span><br><span class="line">&#123;</span><br><span class="line">    return 0.5;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)animateTransition:(id&lt;UIViewControllerContextTransitioning&gt;)transitionContext</span><br><span class="line">&#123;</span><br><span class="line">    switch (_type) &#123;</span><br><span class="line">        case TransitionAnimationObjectType_Push:</span><br><span class="line">            [self pushAnimateTransition:transitionContext];</span><br><span class="line">            break;</span><br><span class="line"></span><br><span class="line">        case TransitionAnimationObjectType_Pop:</span><br><span class="line">            [self popAnimateTransition:transitionContext];</span><br><span class="line">            break;</span><br><span class="line"></span><br><span class="line">        case TransitionAnimationObjectType_present:</span><br><span class="line">            [self presentAnimateTransition:transitionContext];</span><br><span class="line">            break;</span><br><span class="line"></span><br><span class="line">        case TransitionAnimationObjectType_Dismiss:</span><br><span class="line">            [self dismissAnimateTransition:transitionContext];</span><br><span class="line">            break;</span><br><span class="line"></span><br><span class="line">        default:</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Push实现"><a href="#Push实现" class="headerlink" title="Push实现"></a>Push实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">- (void)pushAnimateTransition:(id&lt;UIViewControllerContextTransitioning&gt;)transitionContext</span><br><span class="line">&#123;</span><br><span class="line">    //获取目标View(secondVC.view) 和 来源View(ViewController.view)</span><br><span class="line">    UIView * toView = [transitionContext viewForKey:UITransitionContextToViewKey];</span><br><span class="line">    UIView * fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];</span><br><span class="line"></span><br><span class="line">    //这里截图做动画 隐藏来源View</span><br><span class="line">    UIView * tempView = [fromView snapshotViewAfterScreenUpdates:NO];</span><br><span class="line">    fromView.hidden = YES;</span><br><span class="line"></span><br><span class="line">    //将需要做转场的View按照顺序添加到转场容器中</span><br><span class="line">    UIView * containerView = [transitionContext containerView];</span><br><span class="line">    [containerView addSubview:tempView];</span><br><span class="line">    [containerView addSubview:toView];</span><br><span class="line"></span><br><span class="line">    CGFloat width = containerView.frame.size.width;</span><br><span class="line">    CGFloat height = containerView.frame.size.height;</span><br><span class="line"></span><br><span class="line">    //设置目标View的初始位置</span><br><span class="line">    toView.frame = CGRectMake(width, 0, width, height);</span><br><span class="line"></span><br><span class="line">    //开始做动画</span><br><span class="line">    NSTimeInterval duration = [self transitionDuration:transitionContext];</span><br><span class="line">    [UIView animateWithDuration:duration animations:^&#123;</span><br><span class="line">        tempView.transform = CGAffineTransformMakeScale(0.9, 0.9);</span><br><span class="line">        toView.transform = CGAffineTransformMakeTranslation(-width, 0);</span><br><span class="line">    &#125; completion:^(BOOL finished) &#123;</span><br><span class="line">        //这里要标记转场成功 假如不标记 系统会认为还在转场中 无法交互</span><br><span class="line">        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];</span><br><span class="line"></span><br><span class="line">        //转场失败 也要做相应的处理</span><br><span class="line">        if ([transitionContext transitionWasCancelled])</span><br><span class="line">        &#123;</span><br><span class="line">            fromView.hidden = NO;</span><br><span class="line">            [tempView removeFromSuperview];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Pop实现"><a href="#Pop实现" class="headerlink" title="Pop实现"></a>Pop实现</h3><p>&ensp;&ensp;&ensp;&ensp; <code>Push</code>和<code>Pop</code>是相对的关系，所以在<code>Pop</code>动画中，目标视图和来源视图互换身份，实现也是用<code>CGAffineTransformIdentity</code>来还原<code>Push</code>动画即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">- (void)popAnimateTransition:(id&lt;UIViewControllerContextTransitioning&gt;)transitionContext</span><br><span class="line">&#123;</span><br><span class="line">    //注意这里是还原 所以toView和fromView 身份互换了 toView是ViewController.view</span><br><span class="line">    UIView * toView = [transitionContext viewForKey:UITransitionContextToViewKey];</span><br><span class="line">    UIView * fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];</span><br><span class="line"></span><br><span class="line">    //获取相应的视图</span><br><span class="line">    UIView * containerView = [transitionContext containerView];</span><br><span class="line">    UIView * tempView = [[containerView subviews] firstObject];</span><br><span class="line"></span><br><span class="line">    //在fromView 下面插入toView 不然回来的时候回黑屏</span><br><span class="line">    [containerView insertSubview:toView belowSubview:fromView];</span><br><span class="line"></span><br><span class="line">    //将动画直接还原即可</span><br><span class="line">    NSTimeInterval duration = [self transitionDuration:transitionContext];</span><br><span class="line">    [UIView animateWithDuration:duration animations:^&#123;</span><br><span class="line">        tempView.transform = CGAffineTransformIdentity;</span><br><span class="line">        fromView.transform = CGAffineTransformIdentity;</span><br><span class="line">    &#125; completion:^(BOOL finished) &#123;</span><br><span class="line">        //标记转场</span><br><span class="line">        [transitionContext completeTransition:!transitionContext.transitionWasCancelled];</span><br><span class="line"></span><br><span class="line">        //转场成功的处理</span><br><span class="line">        if (![transitionContext transitionWasCancelled])</span><br><span class="line">        &#123;</span><br><span class="line">            [tempView removeFromSuperview];</span><br><span class="line">            toView.hidden = NO;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="UINavigationControllerDelegate代理方法"><a href="#UINavigationControllerDelegate代理方法" class="headerlink" title="UINavigationControllerDelegate代理方法"></a>UINavigationControllerDelegate代理方法</h3><p>&ensp;&ensp;&ensp;&ensp;完成<code>AnimatedTransitioningObject</code>类后，再返回<code>ViewController</code>中，<code>ViewController</code>要遵循<code>UINavigationBarDelegate</code>和<code>UIViewControllerTransitioningDelegate</code>，把<code>SecondVC</code>的<code>transitioningDelegate</code>设置为自己。然后根据不同的<code>operation</code>，来返回不同的动画实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">@interface ViewController () &lt;UINavigationControllerDelegate,UIViewControllerTransitioningDelegate&gt;</span><br><span class="line"></span><br><span class="line">- (IBAction)pushBtnClick:(id)sender</span><br><span class="line">&#123;</span><br><span class="line">    SecondViewController * vc = [[SecondViewController alloc] init];</span><br><span class="line">    vc.transitioningDelegate = self;</span><br><span class="line">    [self.navigationController pushViewController:vc animated:YES];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - Push &amp;&amp; Pop</span><br><span class="line">- (id &lt;UIViewControllerAnimatedTransitioning&gt;)navigationController:(UINavigationController *)navigationController</span><br><span class="line">animationControllerForOperation:(UINavigationControllerOperation)operation</span><br><span class="line">fromViewController:(UIViewController *)fromVC</span><br><span class="line">toViewController:(UIViewController *)toVC</span><br><span class="line">&#123;</span><br><span class="line">    if (operation == UINavigationControllerOperationPush)</span><br><span class="line">    &#123;</span><br><span class="line">        return [TransitionAnimationObject initWithTransitionAnimationObjectType:TransitionAnimationObjectType_Push];</span><br><span class="line">    &#125;</span><br><span class="line">    else if (operation == UINavigationControllerOperationPop)</span><br><span class="line">    &#123;</span><br><span class="line">        return [TransitionAnimationObject initWithTransitionAnimationObjectType:TransitionAnimationObjectType_Pop];</span><br><span class="line">    &#125;</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>&ensp;&ensp;&ensp;&ensp;看看实现效果<br><img src="https://yuyiios-work.oss-cn-shanghai.aliyuncs.com/%E5%8D%9A%E5%AE%A2/TransitionAnimation%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/Push%E5%92%8CPop%E6%95%88%E6%9E%9C.gif" alt="Push和Pop效果.gif"></p>
+<h2 id="Present动画和Dismiss动画"><a href="#Present动画和Dismiss动画" class="headerlink" title="Present动画和Dismiss动画"></a>Present动画和Dismiss动画</h2><h3 id="Present实现"><a href="#Present实现" class="headerlink" title="Present实现"></a>Present实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">- (void)presentAnimateTransition:(id&lt;UIViewControllerContextTransitioning&gt;)transitionContext</span><br><span class="line">&#123;</span><br><span class="line">    //获取目标View(ThirdVC.view) 和 来源View(ViewController.view)</span><br><span class="line">    UIView * toView = [transitionContext viewForKey:UITransitionContextToViewKey];</span><br><span class="line">    UIView * fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];</span><br><span class="line"></span><br><span class="line">    //截图做动画</span><br><span class="line">    UIView * tempView = [fromView snapshotViewAfterScreenUpdates:NO];</span><br><span class="line">    tempView.frame = fromView.frame;</span><br><span class="line">    fromView.hidden = YES;</span><br><span class="line"></span><br><span class="line">    //按照顺序假如转场动画容器中</span><br><span class="line">    UIView * containerView = [transitionContext containerView];</span><br><span class="line">    [containerView addSubview:tempView];</span><br><span class="line">    [containerView addSubview:toView];</span><br><span class="line"></span><br><span class="line">    CGFloat width = containerView.frame.size.width;</span><br><span class="line">    CGFloat height = containerView.frame.size.height;</span><br><span class="line"></span><br><span class="line">    //设置toView的初始化位置 在屏幕底部</span><br><span class="line">    toView.frame = CGRectMake(0, height, width, 400);</span><br><span class="line"></span><br><span class="line">    //做转场动画</span><br><span class="line">    NSTimeInterval duration = [self transitionDuration:transitionContext];</span><br><span class="line">    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.55 initialSpringVelocity:1 options:0 animations:^&#123;</span><br><span class="line">        tempView.transform = CGAffineTransformMakeScale(0.9, 0.9);</span><br><span class="line">        toView.transform = CGAffineTransformMakeTranslation(0, -400);</span><br><span class="line">    &#125; completion:^(BOOL finished) &#123;</span><br><span class="line">        //转场结束后一定要标记 否则会认为还在转场 无法交互</span><br><span class="line">        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];</span><br><span class="line">        if ([transitionContext transitionWasCancelled])</span><br><span class="line">        &#123;</span><br><span class="line">            //转场失败</span><br><span class="line">            fromView.hidden = NO;</span><br><span class="line">            [tempView removeFromSuperview];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Dismiss实现"><a href="#Dismiss实现" class="headerlink" title="Dismiss实现"></a>Dismiss实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">- (void)dismissAnimateTransition:(id&lt;UIViewControllerContextTransitioning&gt;)transitionContext</span><br><span class="line">&#123;</span><br><span class="line">    //dismiss的时候 fromVC和toVC身份倒过来了</span><br><span class="line">    UIView * toView = [transitionContext viewForKey:UITransitionContextToViewKey];</span><br><span class="line">    UIView * fromView = [transitionContext viewForKey:UITransitionContextFromViewKey];</span><br><span class="line"></span><br><span class="line">    //containerView里面的顺序也倒过来了 截图在最上面</span><br><span class="line">    UIView * containerView = [transitionContext containerView];</span><br><span class="line">    UIView * tempView = [[containerView subviews] firstObject];</span><br><span class="line"></span><br><span class="line">    //做还原动画就可以了</span><br><span class="line">    NSTimeInterval duration = [self transitionDuration:transitionContext];</span><br><span class="line"></span><br><span class="line">    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.55 initialSpringVelocity:1 options:0 animations:^&#123;</span><br><span class="line">        tempView.transform = CGAffineTransformIdentity;</span><br><span class="line">        fromView.transform = CGAffineTransformIdentity;</span><br><span class="line">    &#125; completion:^(BOOL finished) &#123;</span><br><span class="line">        //转场结束后一定要标记 否则会认为还在转场 无法交互</span><br><span class="line">        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];</span><br><span class="line">        if (![transitionContext transitionWasCancelled])</span><br><span class="line">        &#123;</span><br><span class="line">            //转场成功</span><br><span class="line">            toView.hidden = NO;</span><br><span class="line">            [tempView removeFromSuperview];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="UIViewControllerTransitioningDelegate代理方法"><a href="#UIViewControllerTransitioningDelegate代理方法" class="headerlink" title="UIViewControllerTransitioningDelegate代理方法"></a>UIViewControllerTransitioningDelegate代理方法</h3><p>&ensp;&ensp;&ensp;&ensp;回到<code>ViewController</code>，把<code>ThirdVC</code>的<code>transitioningDelegate</code>设置为自己,然后在代理方法中自定类型。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)presentBtnClick:(id)sender</span><br><span class="line">&#123;</span><br><span class="line">    ThirdViewController * vc = [[ThirdViewController alloc] init];</span><br><span class="line">    vc.transitioningDelegate = self;</span><br><span class="line">    [self presentViewController:vc animated:YES completion:nil];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - Present &amp;&amp; Dismiss</span><br><span class="line">- (id &lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source</span><br><span class="line">&#123;</span><br><span class="line">    return [TransitionAnimationObject initWithTransitionAnimationObjectType:TransitionAnimationObjectType_present];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (id &lt;UIViewControllerAnimatedTransitioning&gt;)animationControllerForDismissedController:(UIViewController *)dismissed</span><br><span class="line">&#123;</span><br><span class="line">    return [TransitionAnimationObject initWithTransitionAnimationObjectType:TransitionAnimationObjectType_Dismiss];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="手势动画"><a href="#手势动画" class="headerlink" title="手势动画"></a>手势动画</h2><h3 id="UIPercentDrivenInteractiveTransition创建手势类"><a href="#UIPercentDrivenInteractiveTransition创建手势类" class="headerlink" title="UIPercentDrivenInteractiveTransition创建手势类"></a>UIPercentDrivenInteractiveTransition创建手势类</h3><p>&ensp;&ensp;&ensp;&ensp;新建一个手势类<code>GestureObject</code>继承自<code>UIPercentDrivenInteractiveTransition</code>，<code>addGestureToViewController</code>是给目标控制器添加手势。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;UIKit/UIKit.h&gt;</span><br><span class="line"></span><br><span class="line">@interface GestureObject : UIPercentDrivenInteractiveTransition</span><br><span class="line"></span><br><span class="line">//判断是交互的手势</span><br><span class="line">@property (nonatomic,assign) BOOL interacting;</span><br><span class="line"></span><br><span class="line">- (void)addGestureToViewController:(UIViewController *)viewController;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
+<p>&ensp;&ensp;&ensp;&ensp;然后再手势的状态之间来判断是否执行动画，这里是判断手势偏移量超过屏幕一半的高度就生效，执行相关动画，否则还原动画。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">- (void)handleGesture:(UIPanGestureRecognizer *)ges</span><br><span class="line">&#123;</span><br><span class="line">    CGPoint point = [ges translationInView:ges.view];</span><br><span class="line"></span><br><span class="line">    switch (ges.state) &#123;</span><br><span class="line">        case UIGestureRecognizerStateBegan:</span><br><span class="line">        &#123;</span><br><span class="line">            self.interacting = YES;</span><br><span class="line">            [self.targetVC dismissViewControllerAnimated:YES completion:nil];</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        case UIGestureRecognizerStateChanged:</span><br><span class="line">        &#123;</span><br><span class="line">            CGFloat fraction = point.y / ges.view.frame.size.height;</span><br><span class="line">            //限制在0和1之间</span><br><span class="line">            fraction = MAX(0.0, MIN(fraction, 1.0));</span><br><span class="line">            self.shouldComplete = fraction &gt; 0.5;</span><br><span class="line">            [self updateInteractiveTransition:fraction];</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        case UIGestureRecognizerStateEnded:</span><br><span class="line">        case UIGestureRecognizerStateCancelled:</span><br><span class="line">        &#123;</span><br><span class="line">            self.interacting = NO;</span><br><span class="line">            if (!self.shouldComplete || ges.state == UIGestureRecognizerStateCancelled)</span><br><span class="line">            &#123;</span><br><span class="line">                //还原动画</span><br><span class="line">                [self cancelInteractiveTransition];</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                //完成动画</span><br><span class="line">                [self finishInteractiveTransition];</span><br><span class="line">            &#125;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        default:</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="UIViewControllerTransitioningDelegate代理方法-1"><a href="#UIViewControllerTransitioningDelegate代理方法-1" class="headerlink" title="UIViewControllerTransitioningDelegate代理方法"></a>UIViewControllerTransitioningDelegate代理方法</h3><p>&ensp;&ensp;&ensp;&ensp;回到<code>ViewController</code>中，在<code>Present</code>出<code>ThirdVC</code>的时候添加手势，在代理方法<code>interactionControllerForDismissal</code>中指定手势。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)presentBtnClick:(id)sender</span><br><span class="line">&#123;</span><br><span class="line">    ThirdViewController * vc = [[ThirdViewController alloc] init];</span><br><span class="line">    vc.transitioningDelegate = self;</span><br><span class="line">    [self.gestureObject addGestureToViewController:vc];</span><br><span class="line">    [self presentViewController:vc animated:YES completion:nil];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (id &lt;UIViewControllerInteractiveTransitioning&gt;)interactionControllerForDismissal:(id&lt;UIViewControllerAnimatedTransitioning&gt;)animator</span><br><span class="line">&#123;</span><br><span class="line">    return self.gestureObject.interacting ? self.gestureObject : nil;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看看效果<br><img src="https://yuyiios-work.oss-cn-shanghai.aliyuncs.com/%E5%8D%9A%E5%AE%A2/TransitionAnimation%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/Present%E5%92%8CDismiss%E6%95%88%E6%9E%9C.gif" alt="Present和Dismiss效果.gif"></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>&ensp;&ensp;&ensp;&ensp; <code>Push</code>、<code>Pop</code>、<code>Present</code>、<code>Dismiss</code>、手势动画都讲解完了，可以看出，自定义转场大致的步骤是</p>
+<ul>
+<li><strong>根据<code>viewForKey</code>来获取转场上下文</strong></li>
+<li><strong>将要转场的视图加入转场容器中</strong></li>
+<li><strong>做出转场动画</strong></li>
+<li><strong>标记转场成功的状态，根据状态做相应的处理</strong></li>
+</ul>
+<p>&ensp;&ensp;&ensp;&ensp;理解了这些，再复杂的转场动画都能一步步分解出来，下面是格瓦拉App的转场效果，第一次看的时候，觉得很酷炫，现在了解了转场的核心后，觉得不那么难了，有时间再把它的效果写出来吧。<br><img src="https://yuyiios-work.oss-cn-shanghai.aliyuncs.com/%E5%8D%9A%E5%AE%A2/TransitionAnimation%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/%E6%A0%BC%E7%93%A6%E6%8B%89%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB.mov" alt="格瓦拉转场动画.mov"></p>
+<p><a href="https://github.com/iOS-Misaki/TransitionAnimation"><strong>源码：TransitionAnimation</strong></a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="https://yuyi-1257105666.cos.ap-beijing.myqcloud.com/wechatpay.png" alt="Misaki 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="https://yuyi-1257105666.cos.ap-beijing.myqcloud.com/alipay.png" alt="Misaki 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/iOS-Misaki.github.io/2018/07/26/CAAnimation 系列动画/" rel="next" title="CAAnimation 系列动画">
+                <i class="fa fa-chevron-left"></i> CAAnimation 系列动画
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zODM3OS8xNDkwNw"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/iOS-Misaki.github.io/images/avatar.png"
+                alt="Misaki" />
+            
+              <p class="site-author-name" itemprop="name">Misaki</p>
+              <p class="site-description motion-element" itemprop="description">一个热爱二次元、沉迷炒币的iOS开发者</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/iOS-Misaki.github.io/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/iOS-Misaki.github.io/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/iOS-Misaki" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/abb55beb0e35" target="_blank" title="简书">
+                      
+                        <i class="fa fa-fw fa-heartbeat"></i>简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/3241094067" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://space.bilibili.com/14658855/#/" target="_blank" title="bilibili">
+                      
+                        <i class="fa fa-fw fa-tv"></i>bilibili</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://user.qzone.qq.com/1204396551/main" target="_blank" title="QQ空间">
+                      
+                        <i class="fa fa-fw fa-qq"></i>QQ空间</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/yuyiios" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://instagram.com/ui_misaki" target="_blank" title="Instagram">
+                      
+                        <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Push和Pop动画"><span class="nav-number">1.</span> <span class="nav-text">Push和Pop动画</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UIViewControllerAnimatedTransitioning协议"><span class="nav-number">1.1.</span> <span class="nav-text">UIViewControllerAnimatedTransitioning协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Push实现"><span class="nav-number">1.2.</span> <span class="nav-text">Push实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pop实现"><span class="nav-number">1.3.</span> <span class="nav-text">Pop实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UINavigationControllerDelegate代理方法"><span class="nav-number">1.4.</span> <span class="nav-text">UINavigationControllerDelegate代理方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Present动画和Dismiss动画"><span class="nav-number">2.</span> <span class="nav-text">Present动画和Dismiss动画</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Present实现"><span class="nav-number">2.1.</span> <span class="nav-text">Present实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dismiss实现"><span class="nav-number">2.2.</span> <span class="nav-text">Dismiss实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UIViewControllerTransitioningDelegate代理方法"><span class="nav-number">2.3.</span> <span class="nav-text">UIViewControllerTransitioningDelegate代理方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#手势动画"><span class="nav-number">3.</span> <span class="nav-text">手势动画</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UIPercentDrivenInteractiveTransition创建手势类"><span class="nav-number">3.1.</span> <span class="nav-text">UIPercentDrivenInteractiveTransition创建手势类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UIViewControllerTransitioningDelegate代理方法-1"><span class="nav-number">3.2.</span> <span class="nav-text">UIViewControllerTransitioningDelegate代理方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Misaki</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_page_pv">
+  本文阅读数:<span id="busuanzi_value_page_pv"></span>
+</span>
+</div>
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/iOS-Misaki.github.io/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/iOS-Misaki.github.io/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/iOS-Misaki.github.io/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/iOS-Misaki.github.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/iOS-Misaki.github.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/iOS-Misaki.github.io/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/iOS-Misaki.github.io/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/iOS-Misaki.github.io/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/iOS-Misaki.github.io/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/iOS-Misaki.github.io/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/iOS-Misaki.github.io/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
